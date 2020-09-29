@@ -1,0 +1,38 @@
+<build>
+   <plugins>
+      <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-compiler-plugin</artifactId>
+		 <version>3.8.1</version>
+         <configuration>
+		 	 <encoding>UTF-8</encoding>
+             <source>8</source>
+             <target>8</target>
+         </configuration>
+     </plugin>  
+     <plugin>
+         <artifactId>maven-assembly-plugin</artifactId>
+         <configuration>
+             <appendAssemblyId>false</appendAssemblyId>
+             <descriptorRefs>
+                 <descriptorRef>jar-with-dependencies</descriptorRef>
+             </descriptorRefs>
+             <archive>
+                 <manifest>
+                     <!-- 此处指定main方法入口的class -->
+                     <mainClass>com.susie.2BController</mainClass>
+                 </manifest>
+             </archive>
+         </configuration>
+         <executions>
+             <execution>
+                 <id>make-assembly</id>
+                 <phase>package</phase>
+                 <goals>
+                     <goal>assembly</goal>
+                 </goals>
+             </execution>
+         </executions>
+     </plugin>
+   </plugins>
+</build>

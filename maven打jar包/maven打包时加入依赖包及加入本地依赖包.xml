@@ -1,0 +1,85 @@
+<build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <defaultLibBundleDir>lib</defaultLibBundleDir>
+                <source>1.5</source>
+                <target>1.5</target>
+                <encoding>UTF-8</encoding>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <addClasspath>true</addClasspath>
+                        <classpathPrefix></classpathPrefix>
+                        <mainClass>com.xx.xx.xx</mainClass>
+                    </manifest>
+                </archive>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>copy</id>
+                    <phase>install</phase>
+                    <goals>
+                        <goal>copy-dependencies</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>
+                            ${project.build.directory}
+                        </outputDirectory>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.2</version>
+            <configuration>
+                <encoding>UTF-8</encoding>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
+<!--maven打包的时候有些jar包是不在mavencenter的。需要在pom中引入相关的本地jar包，那么相关的depency应该像如下更改-->
+<dependency>
+    <groupId>org.wltea.ik-analyzer</groupId>
+    <artifactId>ik-analyzer</artifactId>
+    <version>3.2.8</version>
+    <scope>system</scope>
+    <systemPath>${project.basedir}/lib/ik-analyzer-3.2.8.jar</systemPath>
+</dependency>
+
+<!--
+对于war包系统来说，有时候需要把jar包打到相关的war包中，可以使用plugin，默认将lib下的所有jar文件打包到
+WEB-INF/lib下。当然也是可以打包其他的文件的，诸如xml,properties等的。相关的plugin如下： 
+-->
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-war-plugin</artifactId>
+    <version>2.3</version>
+    <configuration>
+        <warName>${project.artifactId}</warName>
+        <webResources>
+            <resource>
+                <directory>lib/</directory>
+                <targetPath>WEB-INF/lib</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+        </webResources>
+    </configuration>
+</plugin>
